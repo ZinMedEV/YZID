@@ -1,1 +1,111 @@
-<!DOCTYPE html><html><head><title>YZID Store</title></head><body><h1>Welcome to YZID Store</h1></body></html>
+
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>متجر YZID</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #e0f2f1, #ffffff);
+      color: #1e3a8a;
+      text-align: center;
+      padding: 30px;
+    }
+    h1 {
+      color: #047857;
+      font-size: 2em;
+      margin-bottom: 10px;
+    }
+    .section {
+      background: #f0fdf4;
+      padding: 20px;
+      border-radius: 16px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+      margin: 20px auto;
+      width: 90%;
+      max-width: 600px;
+    }
+    input[type="text"] {
+      padding: 10px;
+      font-size: 1em;
+      width: 80%;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+    button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      font-size: 1em;
+      border-radius: 8px;
+      border: none;
+      background-color: #10b981;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #059669;
+    }
+    .game-img {
+      width: 100%;
+      max-width: 400px;
+      border-radius: 12px;
+      margin-top: 20px;
+    }
+    .status {
+      margin-top: 15px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>🎮 YZID Game Store</h1>
+
+  <div class="section">
+    <p>📥 أدخل كود تفعيل اللعبة:</p>
+    <input type="text" id="codeInput" placeholder="مثال: YZID-GTA5" />
+    <br />
+    <button onclick="activateCode()">تفعيل الكود</button>
+    <p class="status" id="statusMsg">🕹️ في انتظار إدخال الكود...</p>
+  </div>
+
+  <div class="section" id="gameSection" style="display:none;">
+    <h2 id="gameTitle">GTA 5</h2>
+    <img src="assets/gta5.jpg" alt="GTA" class="game-img" />
+    <br />
+    <a id="downloadLink" href="#" download>
+      <button>⬇️ تحميل اللعبة</button>
+    </a>
+  </div>
+
+  <script>
+    const games = {
+      "YZID-GTA5": {
+        title: "GTA 5",
+        path: "assets/gta5.pkg"
+      }
+    };
+
+    function activateCode() {
+      const code = document.getElementById("codeInput").value.trim().toUpperCase();
+      const msg = document.getElementById("statusMsg");
+
+      if (games[code]) {
+        msg.textContent = "✅ تم التفعيل بنجاح!";
+        const game = games[code];
+        document.getElementById("gameTitle").textContent = game.title;
+        document.getElementById("downloadLink").href = game.path;
+        document.getElementById("gameSection").style.display = "block";
+
+        const prev = JSON.parse(localStorage.getItem("YZID-CODES") || "[]");
+        prev.push({ code: code, date: new Date().toLocaleString() });
+        localStorage.setItem("YZID-CODES", JSON.stringify(prev));
+      } else {
+        msg.textContent = "❌ الكود غير صحيح أو غير مفعل.";
+        document.getElementById("gameSection").style.display = "none";
+      }
+    }
+  </script>
+</body>
+</html>
