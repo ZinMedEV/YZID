@@ -1,0 +1,44 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>YZID Admin Panel</title>
+  <style>
+    body { font-family: sans-serif; background: #f1f5f9; color: #1f2937; padding: 20px; }
+    h1 { color: #047857; }
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+    th, td { border: 1px solid #cbd5e1; padding: 8px; text-align: left; }
+    th { background: #d1fae5; }
+  </style>
+</head>
+<body>
+  <h1>📊 YZID - Admin Panel</h1>
+  <p>عرض الأكواد التي تم استخدامها على هذا الجهاز:</p>
+  <table id="codeTable">
+    <thead>
+      <tr><th>الكود</th><th>التاريخ</th></tr>
+    </thead>
+    <tbody id="codeBody">
+    </tbody>
+  </table>
+
+  <script>
+    const codeData = JSON.parse(localStorage.getItem("YZID-CODES")) || [];
+    const body = document.getElementById("codeBody");
+    codeData.forEach(entry => {
+      const row = document.createElement("tr");
+      const codeCell = document.createElement("td");
+      const dateCell = document.createElement("td");
+
+      codeCell.textContent = entry.code;
+      dateCell.textContent = entry.date;
+
+      row.appendChild(codeCell);
+      row.appendChild(dateCell);
+      body.appendChild(row);
+    });
+  </script>
+</body>
+</html>
